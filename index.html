@@ -9,19 +9,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Chosen Palette: Warm Neutrals & Subtle Accents -->
-    <!-- Application Structure Plan: The application is designed as a multi-stage, interactive learning path. It starts with foundational courses and progresses through core ML, specializations, and MLOps. The journey now features a single, consolidated "Phase 5: High-Impact Project Portfolio & Specialization" with nested, tiered project sections (Foundational & Core ML, Advanced & Production-Grade, and now, a further nested "Industry-Specific & Elite Projects" with sub-sections for Healthcare, Finance, and Space). This consolidation makes the roadmap less repetitive and more streamlined. The final "Phase 6: Career Acceleration & Job Search Strategies" remains distinct. This structure provides a clear, progressive roadmap from theoretical knowledge to practical, high-value application, directly addressing the goal of securing a top-tier ML engineering role, allowing for granular industry specialization, and providing essential job search guidance. An interactive chart and skills dashboard complement the roadmap by aiding decision-making and reinforcing learning connections. -->
-    <!-- Visualization & Content Choices:
-        - Report Info: A curriculum for ML Engineers. -> Goal: Organize & Guide -> Viz/Presentation: A multi-phase, collapsible card layout, now with a single, consolidated project phase containing nested tiered project subsections, and a further nested structure for industry-specific projects, along with nested career strategy subsections. -> Interaction: Users click to expand each phase and sub-level, revealing curated lists and advice. -> Justification: The consolidated project phase reduces redundancy and improves flow. The deeply nested structure for projects (especially industry-specific ones) breaks down complex information into manageable, progressive steps, and allows for highly specialized industry focus and dedicated career guidance, preventing overwhelm and providing clear paths from simple scripts to production-grade systems and job readiness. -> Library/Method: HTML/Tailwind CSS + Vanilla JS for toggling visibility.
-        - Report Info: Comparison of ML specializations. -> Goal: Compare & Analyze -> Viz/Presentation: Horizontal Bar Chart. -> Interaction: Hovering over bars shows detailed scores for key criteria. -> Justification: Offers a quick, visual comparison to help users select the most suitable specialization for their career goals. -> Library/Method: Chart.js (Canvas).
-        - Report Info: Key skills for ML roles. -> Goal: Inform & Relate -> Viz/Presentation: An interactive grid of skill tags. -> Interaction: Clicking a skill highlights all relevant courses and projects in the roadmap. -> Justification: Creates a dynamic link between job requirements and the learning materials, allowing users to see exactly where each skill is taught and applied. -> Library/Method: HTML/Tailwind CSS + Vanilla JS.
-    -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8f7f4;
-            color: #1f2937;
+            background-color: #f8f7f4; /* Warm Neutral Background */
+            color: #1f2937; /* Dark Gray for text */
         }
         .chart-container {
             position: relative;
@@ -29,44 +22,50 @@
             max-width: 800px;
             margin-left: auto;
             margin-right: auto;
-            height: 400px;
-            max-height: 50vh;
+            height: 400px; /* Fixed height for chart on smaller screens */
+            max-height: 50vh; /* Max height relative to viewport height */
         }
         @media (min-width: 768px) {
             .chart-container {
-                height: 500px;
+                height: 500px; /* Taller on larger screens */
             }
         }
+        /* Hidden by default, toggled by JS */
         .phase-content, .project-subsection-content, .industry-specific-tier-content, .career-subsection-content {
             display: none;
             overflow: hidden;
-            transition: max-height 0.5s ease-in-out;
+            transition: max-height 0.5s ease-in-out; /* Smooth transition for expand/collapse */
         }
+        /* Active state for visible content */
         .phase-content.active, .project-subsection-content.active, .industry-specific-tier-content.active, .career-subsection-content.active {
             display: block;
         }
+        /* Skill tag highlighting */
         .skill-tag.highlight {
-            background-color: #10B981 !important;
+            background-color: #10B981 !important; /* Emerald green for highlight */
             color: white !important;
-            transform: scale(1.05);
-            box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.3);
+            transform: scale(1.05); /* Slight scale up on highlight */
+            box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.3); /* Soft shadow */
         }
+        /* Course/Project card highlighting */
         .course-card.highlight-skill {
-            border: 2px solid #10B981;
-            box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+            border: 2px solid #10B981; /* Emerald green border */
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.3); /* Glowing effect */
         }
+        /* Clickable header styles */
         .phase-header, .project-subsection-header, .industry-specific-tier-header, .career-subsection-header {
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
         .phase-header:hover, .project-subsection-header:hover, .industry-specific-tier-header:hover, .career-subsection-header:hover {
-            background-color: #e5e7eb;
+            background-color: #e5e7eb; /* Light gray on hover */
         }
+        /* Arrow icon rotation */
         .arrow-icon {
             transition: transform 0.3s ease-in-out;
         }
         .phase-header.open .arrow-icon, .project-subsection-header.open .arrow-icon, .industry-specific-tier-header.open .arrow-icon, .career-subsection-header.open .arrow-icon {
-            transform: rotate(180deg);
+            transform: rotate(180deg); /* Rotate arrow when open */
         }
     </style>
 </head>
@@ -92,7 +91,7 @@
 
             <section id="comparison" class="mb-20 py-12 bg-white rounded-2xl shadow-lg">
                 <h3 class="text-3xl font-bold text-center text-gray-800 mb-4">Top Specializations: A Comparison</h3>
-                 <p class="text-center text-gray-600 max-w-3xl mx-auto mb-8 px-4">
+                <p class="text-center text-gray-600 max-w-3xl mx-auto mb-8 px-4">
                     Choosing a specialization is a key decision. This chart compares top-rated Professional Certificates and Specializations on Coursera based on criteria critical for job-readiness. Hover over the bars to see how each program scores in terms of theoretical depth, practical application, and MLOps coverage.
                 </p>
                 <div class="chart-container">
@@ -101,7 +100,7 @@
             </section>
 
             <section id="skills" class="mb-16">
-                 <h3 class="text-3xl font-bold text-center text-gray-800 mb-4">Key Skills Dashboard</h3>
+                <h3 class="text-3xl font-bold text-center text-gray-800 mb-4">Key Skills Dashboard</h3>
                 <p class="text-center text-gray-600 max-w-3xl mx-auto mb-8">
                     Top MNCs look for a specific set of technical skills. This dashboard highlights the most in-demand technologies and concepts in Machine Learning. Click on any skill to highlight the courses and projects in the roadmap above that will help you master it.
                 </p>
@@ -265,6 +264,7 @@
                 ]
             };
             
+            // Collect all unique skills from roadmap data
             const allSkills = new Set();
             roadmapData.phases.forEach(phase => {
                 if (phase.courses) {
@@ -284,7 +284,7 @@
             });
             const skillsData = Array.from(allSkills);
 
-
+            // Render Roadmap Phases
             const phasesContainer = document.getElementById('phases-container');
             roadmapData.phases.forEach((phase, index) => {
                 const phaseElement = document.createElement('div');
@@ -292,20 +292,22 @@
 
                 let contentHTML = '';
                 if (phase.isConsolidatedProjectPhase) {
+                    // Render project subsections for the consolidated phase
                     contentHTML = phase.projectSubsections.map((subsection, subIndex) => {
                         let subsectionProjectsHTML = '';
                         if (subsection.isIndustryEliteNested) {
+                            // Render industry-specific tiers within the project subsection
                             subsectionProjectsHTML = subsection.industryEliteTiers.map((tier, tierIndex) => {
                                 const projectsHTML = tier.projects.map(project => `
-                                     <div class="course-card p-4 border-t border-gray-200" data-skills='${JSON.stringify(project.skills)}'>
+                                    <div class="course-card p-4 border-t border-gray-200" data-skills='${JSON.stringify(project.skills)}'>
                                         <div class="flex justify-between items-start">
-                                             <div>
+                                            <div>
                                                 <h5 class="font-semibold text-gray-800">${project.title}</h5>
                                                 <p class="text-sm text-gray-500">${project.provider}</p>
-                                             </div>
-                                             <a href="${project.link}" target="_blank" class="ml-4 flex-shrink-0 inline-block bg-emerald-500 text-white text-xs font-bold py-2 px-3 rounded-full hover:bg-emerald-600 transition-colors">
+                                            </div>
+                                            <a href="${project.link}" target="_blank" class="ml-4 flex-shrink-0 inline-block bg-emerald-500 text-white text-xs font-bold py-2 px-3 rounded-full hover:bg-emerald-600 transition-colors">
                                                 Resource
-                                             </a>
+                                            </a>
                                         </div>
                                         <div class="mt-3 flex flex-wrap gap-2">
                                             ${project.skills.map(skill => `<span class="bg-gray-200 text-gray-700 text-xs font-medium px-2.5 py-1 rounded-full">${skill}</span>`).join('')}
@@ -331,16 +333,17 @@
                                 `;
                             }).join('');
                         } else {
+                            // Render regular projects within the project subsection
                             subsectionProjectsHTML = subsection.projects.map(project => `
-                                 <div class="course-card p-4 border-t border-gray-200" data-skills='${JSON.stringify(project.skills)}'>
+                                <div class="course-card p-4 border-t border-gray-200" data-skills='${JSON.stringify(project.skills)}'>
                                     <div class="flex justify-between items-start">
-                                         <div>
+                                        <div>
                                             <h5 class="font-semibold text-gray-800">${project.title}</h5>
                                             <p class="text-sm text-gray-500">${project.provider}</p>
-                                         </div>
-                                         <a href="${project.link}" target="_blank" class="ml-4 flex-shrink-0 inline-block bg-emerald-500 text-white text-xs font-bold py-2 px-3 rounded-full hover:bg-emerald-600 transition-colors">
+                                        </div>
+                                        <a href="${project.link}" target="_blank" class="ml-4 flex-shrink-0 inline-block bg-emerald-500 text-white text-xs font-bold py-2 px-3 rounded-full hover:bg-emerald-600 transition-colors">
                                             Resource
-                                         </a>
+                                        </a>
                                     </div>
                                     <div class="mt-3 flex flex-wrap gap-2">
                                         ${project.skills.map(skill => `<span class="bg-gray-200 text-gray-700 text-xs font-medium px-2.5 py-1 rounded-full">${skill}</span>`).join('')}
@@ -367,6 +370,7 @@
                         `;
                     }).join('');
                 } else if (phase.isCareerPhase) {
+                    // Render career subsections for the career phase
                     contentHTML = phase.careerSubsections.map((subsection, subIndex) => `
                         <div class="border-t border-gray-200">
                             <div class="career-subsection-header p-4 bg-gray-50 flex justify-between items-center" data-target="career-subsection-${index}-${subIndex}">
@@ -385,18 +389,18 @@
                             </div>
                         </div>
                     `).join('');
-                }
-                else {
+                } else {
+                    // Render courses for regular phases
                     contentHTML = phase.courses.map(course => `
                         <div class="course-card p-4 border-t border-gray-200" data-skills='${JSON.stringify(course.skills)}'>
                             <div class="flex justify-between items-start">
-                                 <div>
+                                <div>
                                     <h5 class="font-semibold text-gray-800">${course.title}</h5>
                                     <p class="text-sm text-gray-500">${course.provider}</p>
-                                 </div>
-                                 <a href="${course.link}" target="_blank" class="ml-4 flex-shrink-0 inline-block bg-emerald-500 text-white text-xs font-bold py-2 px-3 rounded-full hover:bg-emerald-600 transition-colors">
+                                </div>
+                                <a href="${course.link}" target="_blank" class="ml-4 flex-shrink-0 inline-block bg-emerald-500 text-white text-xs font-bold py-2 px-3 rounded-full hover:bg-emerald-600 transition-colors">
                                     Go to Course
-                                 </a>
+                                </a>
                             </div>
                             <div class="mt-3 flex flex-wrap gap-2">
                                 ${course.skills.map(skill => `<span class="bg-gray-200 text-gray-700 text-xs font-medium px-2.5 py-1 rounded-full">${skill}</span>`).join('')}
@@ -425,10 +429,11 @@
                 phasesContainer.appendChild(phaseElement);
             });
             
+            // Function to set up toggle behavior for various sections
             function setupToggle(selector, contentSelector) {
-                 document.querySelectorAll(selector).forEach(header => {
+                document.querySelectorAll(selector).forEach(header => {
                     header.addEventListener('click', (e) => {
-                        e.stopPropagation();
+                        e.stopPropagation(); // Prevent event bubbling
                         const targetId = header.getAttribute('data-target');
                         const content = document.getElementById(targetId);
                         const isActive = content.classList.contains('active');
@@ -444,14 +449,14 @@
                         }
                         // Close other subsections within a phase if clicking a project-subsection-header or career-subsection-header
                         else if (selector === '.project-subsection-header' || selector === '.career-subsection-header') {
-                             const parentContentId = header.closest('.phase-content').id;
-                             document.querySelectorAll(`#${parentContentId} > .border-t > ${selector.replace('.', '')}`).forEach(openHeader => {
-                                 const openContentId = openHeader.getAttribute('data-target');
-                                 if (openContentId !== targetId) {
-                                     document.getElementById(openContentId).classList.remove('active');
-                                     openHeader.classList.remove('open');
-                                 }
-                             });
+                            const parentContentId = header.closest('.phase-content').id;
+                            document.querySelectorAll(`#${parentContentId} > .border-t > ${selector.replace('.', '')}`).forEach(openHeader => {
+                                const openContentId = openHeader.getAttribute('data-target');
+                                if (openContentId !== targetId) {
+                                    document.getElementById(openContentId).classList.remove('active');
+                                    openHeader.classList.remove('open');
+                                }
+                            });
                         }
                         // Close other industry-specific tiers if clicking an industry-specific-tier-header
                         else if (selector === '.industry-specific-tier-header') {
@@ -465,20 +470,20 @@
                             });
                         }
 
-
+                        // Toggle active class and arrow icon for the clicked header
                         content.classList.toggle('active');
                         header.classList.toggle('open');
                     });
                 });
             }
 
+            // Apply toggle behavior to all levels of collapsible content
             setupToggle('.phase-header', '.phase-content');
             setupToggle('.project-subsection-header', '.project-subsection-content');
             setupToggle('.industry-specific-tier-header', '.industry-specific-tier-content');
             setupToggle('.career-subsection-header', '.career-subsection-content');
 
-
-            
+            // Render Skill Tags
             const skillsGrid = document.getElementById('skills-grid');
             skillsData.sort().forEach(skill => {
                 const skillTag = document.createElement('button');
@@ -488,39 +493,50 @@
                 skillsGrid.appendChild(skillTag);
             });
 
-            let activeSkill = null;
+            // Skill Tag Click Listener for Highlighting
+            let activeSkill = null; // To keep track of the currently active skill filter
             skillsGrid.addEventListener('click', e => {
                 if (e.target.classList.contains('skill-tag')) {
                     const selectedSkill = e.target.dataset.skill;
 
+                    // Remove highlights from all tags and cards first
                     document.querySelectorAll('.skill-tag').forEach(tag => tag.classList.remove('highlight'));
                     document.querySelectorAll('.course-card').forEach(card => card.classList.remove('highlight-skill'));
                     
                     if (activeSkill === selectedSkill) {
+                        // If the same skill is clicked again, deactivate filter
                         activeSkill = null;
                     } else {
+                        // Activate new skill filter
                         e.target.classList.add('highlight');
                         activeSkill = selectedSkill;
+                        
+                        // Highlight relevant course/project cards and expand their parent sections
                         document.querySelectorAll('.course-card').forEach(card => {
-                            const industrySpecificTierContent = card.closest('.industry-specific-tier-content');
-                            if (industrySpecificTierContent && !industrySpecificTierContent.classList.contains('active')) {
-                                document.querySelector(`[data-target='${industrySpecificTierContent.id}']`).click();
-                            }
-                            const projectSubsectionContent = card.closest('.project-subsection-content');
-                            if (projectSubsectionContent && !projectSubsectionContent.classList.contains('active')) {
-                                document.querySelector(`[data-target='${projectSubsectionContent.id}']`).click();
-                            }
-                            const phaseContent = card.closest('.phase-content');
-                            if (phaseContent && !phaseContent.classList.contains('active')) {
-                                document.querySelector(`[data-target='${phaseContent.id}']`).click();
-                            }
-
                             const cardSkills = JSON.parse(card.dataset.skills);
                             if (cardSkills.includes(selectedSkill)) {
                                 card.classList.add('highlight-skill');
+
+                                // Automatically open parent collapsible sections
+                                // Check for industry-specific tier first
+                                const industrySpecificTierContent = card.closest('.industry-specific-tier-content');
+                                if (industrySpecificTierContent && !industrySpecificTierContent.classList.contains('active')) {
+                                    document.querySelector(`[data-target='${industrySpecificTierContent.id}']`).click();
+                                }
+                                // Check for project subsection (could be direct parent or grandparent)
+                                const projectSubsectionContent = card.closest('.project-subsection-content');
+                                if (projectSubsectionContent && !projectSubsectionContent.classList.contains('active')) {
+                                    document.querySelector(`[data-target='${projectSubsectionContent.id}']`).click();
+                                }
+                                // Check for main phase content
+                                const phaseContent = card.closest('.phase-content');
+                                if (phaseContent && !phaseContent.classList.contains('active')) {
+                                    document.querySelector(`[data-target='${phaseContent.id}']`).click();
+                                }
                             }
                         });
                         
+                        // Scroll to the first highlighted item for better UX
                         const firstHighlight = document.querySelector('.course-card.highlight-skill');
                         if(firstHighlight) {
                             firstHighlight.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -529,6 +545,7 @@
                 }
             });
 
+            // Chart.js Data for Specialization Comparison
             const specializationData = {
                 labels: [
                     'Deep Learning Specialization', 
@@ -541,53 +558,75 @@
                     {
                         label: 'Theoretical Depth',
                         data: [9, 7, 7, 8, 10],
-                        backgroundColor: 'rgba(52, 152, 219, 0.7)',
+                        backgroundColor: 'rgba(52, 152, 219, 0.7)', // Blue
                         borderColor: 'rgba(52, 152, 219, 1)',
                         borderWidth: 1
                     },
                     {
                         label: 'Practical Focus',
                         data: [8, 9, 10, 9, 7],
-                        backgroundColor: 'rgba(26, 188, 156, 0.7)',
+                        backgroundColor: 'rgba(26, 188, 156, 0.7)', // Teal
                         borderColor: 'rgba(26, 188, 156, 1)',
                         borderWidth: 1
                     },
                     {
                         label: 'MLOps Coverage',
                         data: [4, 10, 5, 9, 2],
-                        backgroundColor: 'rgba(241, 196, 15, 0.7)',
+                        backgroundColor: 'rgba(241, 196, 15, 0.7)', // Yellow
                         borderColor: 'rgba(241, 196, 15, 1)',
                         borderWidth: 1
                     }
                 ]
             };
 
+            // Chart.js Configuration
             const ctx = document.getElementById('specializationChart').getContext('2d');
             new Chart(ctx, {
                 type: 'bar',
                 data: specializationData,
                 options: {
-                    indexAxis: 'y',
+                    indexAxis: 'y', // Horizontal bars
                     responsive: true,
                     maintainAspectRatio: false,
+                    layout: {
+                        padding: {
+                            left: 10, // Add some padding around the chart
+                            right: 10,
+                            top: 0,
+                            bottom: 0
+                        }
+                    },
                     scales: {
                         x: {
                             stacked: true,
                             beginAtZero: true,
-                            max: 30,
-                             grid: {
-                                color: '#e5e7eb'
+                            max: 30, // Max score is 10 for each of 3 categories = 30
+                            grid: {
+                                color: '#e5e7eb' // Light gray grid lines
                             },
                             ticks: {
                                 callback: function(value) {
-                                    return value + ' / 10'
+                                    return value + ' / 10'; // Show score out of 10
+                                },
+                                color: '#4b5563' // Tick label color
+                            },
+                            title: { // Add a title to the x-axis for clarity
+                                display: true,
+                                text: 'Score (out of 10)',
+                                color: '#4b5563',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
                                 }
                             }
                         },
                         y: {
                             stacked: true,
-                             grid: {
-                                display: false
+                            grid: {
+                                display: false // No horizontal grid lines
+                            },
+                            ticks: {
+                                color: '#4b5563' // Tick label color
                             }
                         }
                     },
@@ -595,12 +634,19 @@
                         legend: {
                             position: 'top',
                             labels: {
-                                color: '#4b5563'
+                                color: '#4b5563', // Legend label color
+                                boxWidth: 20, // Size of the color box in the legend
+                                padding: 15 // Padding between legend items
                             }
                         },
                         tooltip: {
-                            mode: 'index',
-                            intersect: false,
+                            mode: 'index', // Show all values for the hovered category
+                            intersect: false, // Tooltip appears even if cursor is not directly on a bar segment
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)', // Darker background for better contrast
+                            titleColor: '#fff', // White title text
+                            bodyColor: '#fff', // White body text
+                            cornerRadius: 4, // Rounded corners for tooltip
+                            displayColors: true, // Show the color box next to each label in the tooltip
                             callbacks: {
                                 label: function(context) {
                                     let label = context.dataset.label || '';
@@ -611,9 +657,22 @@
                                         label += context.parsed.x + ' / 10';
                                     }
                                     return label;
+                                },
+                                title: function(context) {
+                                    // Displays the specialization name as the tooltip title
+                                    return context[0].label; 
                                 }
                             }
                         }
+                    },
+                    hover: {
+                        mode: 'nearest', // Highlight the nearest item
+                        intersect: true // Cursor must intersect the item for hover
+                    },
+                    interaction: { // For better mobile interaction (tap to show tooltip)
+                        mode: 'nearest',
+                        intersect: true,
+                        axis: 'y' // Limit interaction to the Y-axis for horizontal bars
                     }
                 }
             });
