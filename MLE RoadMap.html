@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Machine Learning Engineer: Coursera Roadmap</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals & Subtle Accents -->
+    <!-- Application Structure Plan: The application is designed as a multi-stage, interactive learning path. It starts with foundational courses and progresses through core ML, specializations, and MLOps. The journey now features a single, consolidated "Phase 5: High-Impact Project Portfolio & Specialization" with nested, tiered project sections (Foundational & Core ML, Advanced & Production-Grade, and now, a further nested "Industry-Specific & Elite Projects" with sub-sections for Healthcare, Finance, and Space). This consolidation makes the roadmap less repetitive and more streamlined. The final "Phase 6: Career Acceleration & Job Search Strategies" remains distinct. This structure provides a clear, progressive roadmap from theoretical knowledge to practical, high-value application, directly addressing the goal of securing a top-tier ML engineering role, allowing for granular industry specialization, and providing essential job search guidance. An interactive chart and skills dashboard complement the roadmap by aiding decision-making and reinforcing learning connections. -->
+    <!-- Visualization & Content Choices:
+        - Report Info: A curriculum for ML Engineers. -> Goal: Organize & Guide -> Viz/Presentation: A multi-phase, collapsible card layout, now with a single, consolidated project phase containing nested tiered project subsections, and a further nested structure for industry-specific projects, along with nested career strategy subsections. -> Interaction: Users click to expand each phase and sub-level, revealing curated lists and advice. -> Justification: The consolidated project phase reduces redundancy and improves flow. The deeply nested structure for projects (especially industry-specific ones) breaks down complex information into manageable, progressive steps, and allows for highly specialized industry focus and dedicated career guidance, preventing overwhelm and providing clear paths from simple scripts to production-grade systems and job readiness. -> Library/Method: HTML/Tailwind CSS + Vanilla JS for toggling visibility.
+        - Report Info: Comparison of ML specializations. -> Goal: Compare & Analyze -> Viz/Presentation: Horizontal Bar Chart. -> Interaction: Hovering over bars shows detailed scores for key criteria. -> Justification: Offers a quick, visual comparison to help users select the most suitable specialization for their career goals. -> Library/Method: Chart.js (Canvas).
+        - Report Info: Key skills for ML roles. -> Goal: Inform & Relate -> Viz/Presentation: An interactive grid of skill tags. -> Interaction: Clicking a skill highlights all relevant courses and projects in the roadmap. -> Justification: Creates a dynamic link between job requirements and the learning materials, allowing users to see exactly where each skill is taught and applied. -> Library/Method: HTML/Tailwind CSS + Vanilla JS.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f7f4;
+            color: #1f2937;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px;
+            max-height: 50vh;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 500px;
+            }
+        }
+        .phase-content, .project-subsection-content, .industry-specific-tier-content, .career-subsection-content {
+            display: none;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+        .phase-content.active, .project-subsection-content.active, .industry-specific-tier-content.active, .career-subsection-content.active {
+            display: block;
+        }
+        .skill-tag.highlight {
+            background-color: #10B981 !important;
+            color: white !important;
+            transform: scale(1.05);
+            box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.3);
+        }
+        .course-card.highlight-skill {
+            border: 2px solid #10B981;
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+        }
+        .phase-header, .project-subsection-header, .industry-specific-tier-header, .career-subsection-header {
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .phase-header:hover, .project-subsection-header:hover, .industry-specific-tier-header:hover, .career-subsection-header:hover {
+            background-color: #e5e7eb;
+        }
+        .arrow-icon {
+            transition: transform 0.3s ease-in-out;
+        }
+        .phase-header.open .arrow-icon, .project-subsection-header.open .arrow-icon, .industry-specific-tier-header.open .arrow-icon, .career-subsection-header.open .arrow-icon {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <header class="text-center mb-16">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 tracking-tight">Coursera Roadmap for an MNC</h1>
+            <h2 class="text-5xl md:text-6xl font-bold text-emerald-500 tracking-tight mt-2">Machine Learning Engineer</h2>
+            <p class="mt-6 max-w-3xl mx-auto text-lg text-gray-600">
+                This interactive guide provides a curated learning path of Coursera's top courses and specializations, along with high-impact project ideas and crucial career strategies, to help you acquire the skills and experience needed for a high-paying Machine Learning Engineer role at leading multinational corporations.
+            </p>
+        </header>
+
+        <main>
+            <section id="roadmap" class="mb-20">
+                <h3 class="text-3xl font-bold text-center text-gray-800 mb-4">The Learning Roadmap</h3>
+                <p class="text-center text-gray-600 max-w-3xl mx-auto mb-12">
+                    Your journey to becoming a top-tier ML Engineer is a marathon, not a sprint. We've broken it down into six logical phases, culminating in a high-impact project portfolio and essential career strategies. Click on each phase to expand and explore.
+                </p>
+                <div id="phases-container" class="space-y-6 max-w-5xl mx-auto"></div>
+            </section>
+
+            <section id="comparison" class="mb-20 py-12 bg-white rounded-2xl shadow-lg">
+                <h3 class="text-3xl font-bold text-center text-gray-800 mb-4">Top Specializations: A Comparison</h3>
+                 <p class="text-center text-gray-600 max-w-3xl mx-auto mb-8 px-4">
+                    Choosing a specialization is a key decision. This chart compares top-rated Professional Certificates and Specializations on Coursera based on criteria critical for job-readiness. Hover over the bars to see how each program scores in terms of theoretical depth, practical application, and MLOps coverage.
+                </p>
+                <div class="chart-container">
+                    <canvas id="specializationChart"></canvas>
+                </div>
+            </section>
+
+            <section id="skills" class="mb-16">
+                 <h3 class="text-3xl font-bold text-center text-gray-800 mb-4">Key Skills Dashboard</h3>
+                <p class="text-center text-gray-600 max-w-3xl mx-auto mb-8">
+                    Top MNCs look for a specific set of technical skills. This dashboard highlights the most in-demand technologies and concepts in Machine Learning. Click on any skill to highlight the courses and projects in the roadmap above that will help you master it.
+                </p>
+                <div id="skills-grid" class="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto"></div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const roadmapData = {
+                phases: [
+                    {
+                        title: "Phase 1: The Foundations",
+                        description: "Every great ML engineer needs a rock-solid base in programming, mathematics, and data handling.",
+                        icon: '📚',
+                        courses: [
+                            { title: "Python for Everybody Specialization", provider: "University of Michigan", skills: ["Python", "Data Structures"], link: "https://www.coursera.org/specializations/python" },
+                            { title: "Mathematics for Machine Learning Specialization", provider: "Imperial College London", skills: ["Linear Algebra", "Calculus", "PCA"], link: "https://www.coursera.org/specializations/mathematics-machine-learning" },
+                            { title: "SQL for Data Science Specialization", provider: "University of California, Davis", skills: ["SQL", "Data Analysis"], link: "https://www.coursera.org/specializations/sql-for-data-science" }
+                        ]
+                    },
+                    {
+                        title: "Phase 2: Core Machine Learning",
+                        description: "Dive into the fundamental algorithms and techniques that form the heart of machine learning.",
+                        icon: '🧠',
+                        courses: [
+                            { title: "Machine Learning Specialization", provider: "DeepLearning.AI / Stanford", skills: ["Supervised Learning", "Unsupervised Learning", "Scikit-learn", "NumPy"], link: "https://www.coursera.org/specializations/machine-learning-introduction" },
+                            { title: "Advanced Learning Algorithms", provider: "DeepLearning.AI / Stanford", skills: ["Neural Networks", "TensorFlow", "Decision Trees"], link: "https://www.coursera.org/learn/advanced-learning-algorithms" },
+                            { title: "Applied Data Science with Python Specialization", provider: "University of Michigan", skills: ["Pandas", "Matplotlib", "Scikit-learn", "NLP"], link: "https://www.coursera.org/specializations/data-science-python" }
+                        ]
+                    },
+                    {
+                        title: "Phase 3: Deep Learning & Specializations",
+                        description: "Master deep learning architectures and choose a specialization to deepen your expertise.",
+                        icon: '✨',
+                        courses: [
+                            { title: "Deep Learning Specialization", provider: "DeepLearning.AI", skills: ["Neural Networks", "CNNs", "RNNs", "TensorFlow", "PyTorch"], link: "https://www.coursera.org/specializations/deep-learning" },
+                            { title: "TensorFlow Developer Professional Certificate", provider: "DeepLearning.AI", skills: ["TensorFlow", "CNNs", "NLP", "Time Series"], link: "https://www.coursera.org/professional-certificates/tensorflow-in-practice" },
+                            { title: "Natural Language Processing Specialization", provider: "DeepLearning.AI", skills: ["NLP", "Hugging Face", "Attention Models", "Transformers"], link: "https://www.coursera.org/specializations/natural-language-processing" },
+                            { title: "Computer Vision Specialization", provider: "University at Buffalo, The State University of New York", skills: ["Computer Vision", "OpenCV", "Image Recognition"], link: "https://www.coursera.org/specializations/computer-vision"}
+                        ]
+                    },
+                    {
+                        title: "Phase 4: MLOps - Production & Deployment",
+                        description: "Learn to deploy, monitor, and maintain ML models in production – a critical skill for any MNC role.",
+                        icon: '🚀',
+                        courses: [
+                            { title: "Machine Learning Engineering for Production (MLOps) Specialization", provider: "DeepLearning.AI", skills: ["MLOps", "ML Pipelines", "CI/CD", "Model Management"], link: "https://www.coursera.org/specializations/machine-learning-engineering-for-production-mlops" },
+                            { title: "Google Cloud Machine Learning Engineer Professional Certificate", provider: "Google Cloud", skills: ["GCP", "Kubeflow", "AI Platform", "MLOps"], link: "https://www.coursera.org/professional-certificates/google-cloud-machine-learning-engineer" }
+                        ]
+                    },
+                    {
+                        title: "Phase 5: High-Impact Project Portfolio & Specialization",
+                        description: "This consolidated phase is your blueprint for building a powerful, job-winning portfolio. It progresses from foundational applications to production-grade systems, including industry-specific and elite projects.",
+                        icon: '🏆',
+                        isConsolidatedProjectPhase: true,
+                        projectSubsections: [
+                            {
+                                subsectionName: "Foundational & Core ML Projects",
+                                subsectionDescription: "Solidify your core understanding and build confidence with these classic projects. Focus on clean code, clear documentation, and thorough data exploration.",
+                                projects: [
+                                    { title: "House Price Prediction (Regression)", provider: "Kaggle / Independent", skills: ["Regression", "Pandas", "Scikit-learn", "Data Cleaning", "Feature Engineering"], link: "https://www.kaggle.com/c/house-prices-advanced-regression-techniques" },
+                                    { title: "Titanic Survival Prediction (Classification)", provider: "Kaggle / Independent", skills: ["Classification", "Feature Engineering", "Data Exploration", "Data Visualization"], link: "https://www.kaggle.com/c/titanic" },
+                                    { title: "Iris Flower Classification", provider: "Independent", skills: ["Classification", "Scikit-learn", "Data Visualization", "Model Evaluation"], link: "https://archive.ics.uci.edu/ml/datasets/iris" },
+                                    { title: "Sentiment Analysis API with FastAPI", provider: "Independent", skills: ["NLP", "FastAPI", "Docker", "Deployment", "API Design"], link: "https://www.coursera.org/learn/ml-engineering-production-mlops-pipelines" },
+                                    { title: "Handwritten Digit Recognizer Web App", provider: "Independent", skills: ["Computer Vision", "TensorFlow", "Streamlit", "Deployment", "Web Application"], link: "https://www.coursera.org/professional-certificates/tensorflow-in-practice" },
+                                    { title: "Customer Churn Prediction Dashboard with Explainable AI", provider: "Independent", skills: ["Classification", "Business Analytics", "SHAP", "LIME", "Data Visualization"], link: "https://www.coursera.org/specializations/data-science-python" }
+                                ]
+                            },
+                            {
+                                subsectionName: "Advanced & Production-Grade Projects",
+                                subsectionDescription: "These projects demonstrate your ability to handle complexity, scale, and the full project lifecycle, mirroring real-world ML systems.",
+                                projects: [
+                                    { title: "Real-Time Object Detection System (YOLO/SSD)", provider: "Independent", skills: ["Computer Vision", "YOLO", "OpenCV", "Real-time Processing", "Performance Optimization"], link: "https://www.coursera.org/specializations/computer-vision" },
+                                    { title: "End-to-End MLOps Pipeline on AWS/GCP", provider: "Independent", skills: ["MLOps", "CI/CD", "Kubernetes", "AWS SageMaker", "GCP Vertex AI", "Cloud"], link: "https://www.coursera.org/professional-certificates/google-cloud-machine-learning-engineer" },
+                                    { title: "Personalized Content Recommendation Engine", provider: "Independent", skills: ["Recommendation Systems", "Collaborative Filtering", "Data Engineering", "Scalability", "API Design"], link: "https://www.coursera.org/specializations/deep-learning" },
+                                    { title: "Fine-Tuning a Large Language Model (LLM) for Q&A", provider: "Independent", skills: ["LLMs", "Hugging Face", "Fine-Tuning", "Transformers", "NLP"], link: "https://www.coursera.org/specializations/natural-language-processing" },
+                                    { title: "Real-time Fraud Detection System with Stream Processing", provider: "Independent (Custom Dataset/Synthetic)", skills: ["Stream Processing", "Kafka", "Spark Streaming", "Anomaly Detection", "MLOps", "Distributed Systems", "Cloud Deployment"], link: "https://github.com/topics/realtime-fraud-detection" },
+                                    { title: "Scalable LLM-powered Chatbot with Fine-tuning and RAG", provider: "Independent (Custom Dataset/Open-source LLM)", skills: ["LLMs", "Fine-tuning", "RAG", "NLP", "Vector Databases", "FastAPI", "Kubernetes", "Serverless", "MLOps"], link: "https://github.com/topics/rag-chatbot" },
+                                    { title: "Reinforcement Learning Agent for Complex Environments", provider: "Independent (OpenAI Gym / Custom Sim)", skills: ["Reinforcement Learning", "Deep RL", "DQN", "PPO", "Custom Environment Design", "Distributed Training", "Performance Optimization"], link: "https://www.gymlibrary.dev/" },
+                                    { title: "Production-Grade Computer Vision Pipeline for Anomaly Detection in Manufacturing", provider: "Independent (Industrial Dataset)", skills: ["Computer Vision", "YOLO", "Mask R-CNN", "Anomaly Detection", "MLOps", "Edge Deployment", "Data Versioning", "CI/CD"], link: "https://github.com/topics/industrial-anomaly-detection" },
+                                    { title: "Distributed Graph Neural Network for Social Network Analysis", provider: "Independent (Large Social Graph)", skills: ["Graph Neural Networks", "Distributed Computing", "Spark", "Dask", "Graph Databases", "Scalable ML", "Big Data"], link: "https://pyg.readthedocs.io/en/latest/" }
+                                ]
+                            },
+                            {
+                                subsectionName: "Industry-Specific & Elite Projects",
+                                subsectionDescription: "Demonstrate expertise in high-demand industries with projects applying ML to real-world problems. Click on a category to explore specific project ideas.",
+                                isIndustryEliteNested: true,
+                                industryEliteTiers: [
+                                    {
+                                        tierName: "Healthcare Projects",
+                                        tierDescription: "Leverage ML for medical diagnostics, drug discovery, and patient care. These projects often involve sensitive data and require robust model interpretation.",
+                                        projects: [
+                                            { title: "Medical Image Segmentation for Tumor Detection", provider: "Kaggle / Independent", skills: ["Computer Vision", "CNNs", "Image Segmentation", "Medical Imaging", "PyTorch", "TensorFlow"], link: "https://www.kaggle.com/datasets/andrewmvd/lung-cancer-detection" },
+                                            { title: "Predicting Patient Readmission Rates", provider: "UCI ML Repo / Independent", skills: ["Classification", "Healthcare Analytics", "Time Series", "Data Preprocessing", "Explainable AI"], link: "https://archive.ics.uci.edu/dataset/296/diabetes+130-us+hospitals+for+years+1999-2008" },
+                                            { title: "Drug Discovery: Molecular Property Prediction", provider: "MoleculeNet / Independent", skills: ["Graph Neural Networks", "Cheminformatics", "Drug Discovery", "Deep Learning"], link: "https://moleculenet.org/" },
+                                            { title: "Clinical Note Summarization (NLP)", provider: "PhysioNet (MIMIC-CXR) / Independent", skills: ["NLP", "Text Summarization", "Transformers", "Healthcare Data", "LLMs"], link: "https://physionet.org/content/mimic-cxr/2.0/" }
+                                        ]
+                                    },
+                                    {
+                                        tierName: "Finance Projects",
+                                        tierDescription: "Apply ML to financial markets, fraud detection, and risk management. These projects demand high accuracy and interpretability.",
+                                        projects: [
+                                            { title: "Algorithmic Trading Strategy (Time Series Forecasting)", provider: "QuantConnect / Independent", skills: ["Time Series", "LSTM", "Reinforcement Learning", "Financial Data", "Trading"], link: "https://www.quantconnect.com/docs/algorithm-framework/introduction" },
+                                            { title: "Credit Card Fraud Detection System", provider: "Kaggle / Independent", skills: ["Anomaly Detection", "Classification", "Imbalanced Data", "Feature Engineering", "Spark"], link: "https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud" },
+                                            { title: "Loan Default Prediction with Explainable AI", provider: "Lending Club / Independent", skills: ["Classification", "Financial Modeling", "Explainable AI", "SHAP", "LIME", "Risk Assessment"], link: "https://www.kaggle.com/datasets/wordsforthewise/lending-club" },
+                                            { title: "Market Sentiment Analysis from News Data", provider: "Financial PhraseBank / Independent", skills: ["NLP", "Sentiment Analysis", "Financial News", "Text Classification", "Transformers"], link: "https://www.kaggle.com/datasets/ankurzing/sentiment-analysis-for-financial-news" }
+                                        ]
+                                    },
+                                    {
+                                        tierName: "Space Projects",
+                                        tierDescription: "Explore ML applications in satellite imagery, astronomy, and spacecraft operations. These often involve large datasets and unique challenges.",
+                                        projects: [
+                                            { title: "Satellite Image Classification (Land Cover/Object Detection)", provider: "DeepGlobe / Independent", skills: ["Computer Vision", "Satellite Imagery", "CNNs", "Remote Sensing", "Geospatial Data"], link: "https://competitions.codalab.org/competitions/18974" },
+                                            { title: "Exoplanet Detection from Astronomical Data", provider: "Kaggle (Kepler) / Independent", skills: ["Classification", "Time Series", "Astronomy", "Data Analysis", "Feature Engineering"], link: "https://www.kaggle.com/datasets/keplersmachines/kepler-labelled-time-series-data" },
+                                            { title: "Space Debris Tracking & Collision Avoidance", provider: "Celestrak / Independent", skills: ["Object Tracking", "Reinforcement Learning", "Simulation", "Orbital Mechanics"], link: "https://celestrak.org/NORAD/elements/" },
+                                            { title: "Galaxy Morphology Classification", provider: "Kaggle (Galaxy Zoo) / Independent", skills: ["Computer Vision", "Image Classification", "CNNs", "Astronomy", "Deep Learning"], link: "https://www.kaggle.com/datasets/lucaspirola/galaxy-zoo-the-galaxy-challenge" }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        title: "Phase 6: Career Acceleration & Job Search Strategies",
+                        description: "Beyond technical skills, mastering the job search process is critical. This phase provides guidance on career support, strategic application, and understanding roles.",
+                        icon: '💼',
+                        isCareerPhase: true,
+                        careerSubsections: [
+                            {
+                                subsectionName: "Specific Career Support & Resources",
+                                subsectionDescription: "Leverage available resources to polish your profile and interview skills.",
+                                items: [
+                                    "🗣️ <b>Mock Interviews:</b> Practice articulating your technical skills and project experiences under pressure. Utilize platforms like <a href='https://www.pramp.com/' target='_blank' class='text-emerald-600 hover:underline'>Pramp</a> or <a href='https://interviewing.io/' target='_blank' class='text-emerald-600 hover:underline'>Interviewing.io</a> for mock interviews with FAANG engineers. Focus on both behavioral questions (using the STAR method) and technical problem-solving (e.g., whiteboarding, coding challenges).",
+                                    "📝 <b>Resume & Portfolio Reviews:</b> Tailor your resume to each job description, highlighting quantifiable achievements and relevant projects. Ensure your online portfolio (e.g., GitHub, personal website, Medium articles) clearly showcases your problem-solving process, impact, and the technologies used. Seek feedback from mentors or career services.",
+                                    "🤝 <b>Employer Consortiums & Job Boards:</b> Actively engage with career services offered by Coursera Professional Certificates (e.g., Google's CareerCircle, IBM's Talent Network). Supplement this with broad job platforms like <a href='https://www.linkedin.com/jobs/' target='_blank' class='text-emerald-600 hover:underline'>LinkedIn Jobs</a>, <a href='https://www.indeed.com/' target='_blank' class='text-emerald-600 hover:underline'>Indeed</a>, and <a href='https://www.glassdoor.com/' target='_blank' class='text-emerald-600 hover:underline'>Glassdoor</a>, and specialized tech job boards such as <a href='https://www.builtin.com/' target='_blank' class='text-emerald-600 hover:underline'>Built In</a> (for specific tech hubs) and <a href='https://hired.com/' target='_blank' class='text-emerald-600 hover:underline'>Hired</a> for curated matches."
+                                ]
+                            },
+                            {
+                                subsectionName: "Strategic Job Search Advice",
+                                subsectionDescription: "Navigate the competitive market with smart application and networking tactics.",
+                                items: [
+                                    "🎯 <b>Tailoring Applications:</b> Customize your resume and cover letter by rephrasing bullet points to directly address the specific requirements and preferred qualifications of each job description. Show how your projects and experiences directly solve problems relevant to the company, demonstrating a 'production-first' mindset. Highlight quantifiable achievements (e.g., 'Reduced inference latency by 30%,' 'Improved model accuracy by 5%').",
+                                    "🌐 <b>Networking:</b> A significant percentage of jobs are filled through referrals. Actively connect with professionals on <a href='https://www.linkedin.com/' target='_blank' class='text-emerald-600 hover:underline'>LinkedIn</a>, attend virtual industry meetups, webinars, and conferences (e.g., <a href='https://neurips.cc/' target='_blank' class='text-emerald-600 hover:underline'>NeurIPS</a>, <a href='https://icml.cc/' target='_blank' class='text-emerald-600 hover:underline'>ICML</a>). Conduct informational interviews to gain insights into roles and build genuine connections. Consider contributing to open-source ML projects to expand your network and showcase practical skills.",
+                                    "📈 <b>Realistic Expectations:</b> The ML job market is highly competitive. Understand that while online certifications are invaluable for skill acquisition, they generally complement, rather than replace, traditional degrees (especially Master's/Ph.D. for research roles) or extensive professional experience. Be prepared for multiple rounds of rigorous interviews (coding, ML theory, system design, behavioral) and view initial entry-level roles as stepping stones for growth and experience."
+                                ]
+                            },
+                            {
+                                subsectionName: "Detailed Role Definitions (MLE vs. Data Scientist vs. MLOps Engineer)",
+                                subsectionDescription: "Clarify your career path by understanding the distinct responsibilities and skill priorities of related ML roles.",
+                                items: [
+                                    "💻 <b>Machine Learning Engineer (MLE):</b> The MLE's primary focus is on designing, building, testing, and deploying scalable ML models and systems into production. Their core expertise lies in writing production-level code and integrating ML models into larger software ecosystems. They bridge the gap between ML research/prototyping and robust, production-ready applications. Key responsibilities include building efficient data pipelines, model serving, API development, monitoring deployed models, and ensuring reliability and performance in live environments. Strong software engineering skills, MLOps proficiency, and cloud platform expertise (AWS, GCP, Azure) are paramount.",
+                                    "📊 <b>Data Scientist:</b> A Data Scientist is primarily concerned with analyzing data, generating actionable insights, and building predictive models. Their strengths lie in statistical analysis, data interpretation, and data visualization, with the goal of providing business intelligence and informing strategic decisions. Responsibilities include exploratory data analysis, statistical modeling, hypothesis testing, A/B testing, and creating compelling visualizations. They often work with prototypes and provide recommendations, with less emphasis on production deployment compared to MLEs.",
+                                    "⚙️ <b>MLOps Engineer:</b> This role specializes in the operationalization and lifecycle management of ML models. An MLOps Engineer is responsible for deploying, managing, and optimizing ML models within production environments. This involves overseeing the entire ML model pipeline, ensuring smooth integration, and automating workflows. While an MLE designs and develops the models, an MLOps Engineer focuses more on the *lifecycle management* and *production readiness* of those models, effectively bridging the gap between ML development and IT operations."
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            };
+            
+            const allSkills = new Set();
+            roadmapData.phases.forEach(phase => {
+                if (phase.courses) {
+                    phase.courses.forEach(course => course.skills.forEach(skill => allSkills.add(skill)));
+                }
+                if (phase.isConsolidatedProjectPhase) {
+                    phase.projectSubsections.forEach(subsection => {
+                        if (subsection.isIndustryEliteNested) {
+                            subsection.industryEliteTiers.forEach(tier => {
+                                tier.projects.forEach(project => project.skills.forEach(skill => allSkills.add(skill)));
+                            });
+                        } else {
+                            subsection.projects.forEach(project => project.skills.forEach(skill => allSkills.add(skill)));
+                        }
+                    });
+                }
+            });
+            const skillsData = Array.from(allSkills);
+
+
+            const phasesContainer = document.getElementById('phases-container');
+            roadmapData.phases.forEach((phase, index) => {
+                const phaseElement = document.createElement('div');
+                phaseElement.className = 'bg-white rounded-xl shadow-md overflow-hidden';
+
+                let contentHTML = '';
+                if (phase.isConsolidatedProjectPhase) {
+                    contentHTML = phase.projectSubsections.map((subsection, subIndex) => {
+                        let subsectionProjectsHTML = '';
+                        if (subsection.isIndustryEliteNested) {
+                            subsectionProjectsHTML = subsection.industryEliteTiers.map((tier, tierIndex) => {
+                                const projectsHTML = tier.projects.map(project => `
+                                     <div class="course-card p-4 border-t border-gray-200" data-skills='${JSON.stringify(project.skills)}'>
+                                        <div class="flex justify-between items-start">
+                                             <div>
+                                                <h5 class="font-semibold text-gray-800">${project.title}</h5>
+                                                <p class="text-sm text-gray-500">${project.provider}</p>
+                                             </div>
+                                             <a href="${project.link}" target="_blank" class="ml-4 flex-shrink-0 inline-block bg-emerald-500 text-white text-xs font-bold py-2 px-3 rounded-full hover:bg-emerald-600 transition-colors">
+                                                Resource
+                                             </a>
+                                        </div>
+                                        <div class="mt-3 flex flex-wrap gap-2">
+                                            ${project.skills.map(skill => `<span class="bg-gray-200 text-gray-700 text-xs font-medium px-2.5 py-1 rounded-full">${skill}</span>`).join('')}
+                                        </div>
+                                    </div>
+                                `).join('');
+
+                                return `
+                                    <div class="border-t border-gray-200">
+                                        <div class="industry-specific-tier-header p-4 bg-gray-100 flex justify-between items-center" data-target="industry-specific-tier-${index}-${subIndex}-${tierIndex}">
+                                            <div>
+                                                <h5 class="font-bold text-gray-700">${tier.tierName}</h5>
+                                                <p class="text-sm text-gray-500">${tier.tierDescription}</p>
+                                            </div>
+                                            <div class="arrow-icon text-gray-500 text-xl">
+                                                <span>▼</span>
+                                            </div>
+                                        </div>
+                                        <div id="industry-specific-tier-${index}-${subIndex}-${tierIndex}" class="industry-specific-tier-content">
+                                            ${projectsHTML}
+                                        </div>
+                                    </div>
+                                `;
+                            }).join('');
+                        } else {
+                            subsectionProjectsHTML = subsection.projects.map(project => `
+                                 <div class="course-card p-4 border-t border-gray-200" data-skills='${JSON.stringify(project.skills)}'>
+                                    <div class="flex justify-between items-start">
+                                         <div>
+                                            <h5 class="font-semibold text-gray-800">${project.title}</h5>
+                                            <p class="text-sm text-gray-500">${project.provider}</p>
+                                         </div>
+                                         <a href="${project.link}" target="_blank" class="ml-4 flex-shrink-0 inline-block bg-emerald-500 text-white text-xs font-bold py-2 px-3 rounded-full hover:bg-emerald-600 transition-colors">
+                                            Resource
+                                         </a>
+                                    </div>
+                                    <div class="mt-3 flex flex-wrap gap-2">
+                                        ${project.skills.map(skill => `<span class="bg-gray-200 text-gray-700 text-xs font-medium px-2.5 py-1 rounded-full">${skill}</span>`).join('')}
+                                    </div>
+                                </div>
+                            `).join('');
+                        }
+
+                        return `
+                            <div class="border-t border-gray-200">
+                                <div class="project-subsection-header p-4 bg-gray-50 flex justify-between items-center" data-target="project-subsection-${index}-${subIndex}">
+                                    <div>
+                                        <h5 class="font-bold text-gray-700">${subsection.subsectionName}</h5>
+                                        <p class="text-gray-600">${subsection.subsectionDescription}</p>
+                                    </div>
+                                    <div class="arrow-icon text-gray-500 text-xl">
+                                        <span>▼</span>
+                                    </div>
+                                </div>
+                                <div id="project-subsection-${index}-${subIndex}" class="project-subsection-content">
+                                    ${subsectionProjectsHTML}
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                } else if (phase.isCareerPhase) {
+                    contentHTML = phase.careerSubsections.map((subsection, subIndex) => `
+                        <div class="border-t border-gray-200">
+                            <div class="career-subsection-header p-4 bg-gray-50 flex justify-between items-center" data-target="career-subsection-${index}-${subIndex}">
+                                <div>
+                                    <h5 class="font-bold text-gray-700">${subsection.subsectionName}</h5>
+                                    <p class="text-sm text-gray-500">${subsection.subsectionDescription}</p>
+                                </div>
+                                <div class="arrow-icon text-gray-500 text-xl">
+                                    <span>▼</span>
+                                </div>
+                            </div>
+                            <div id="career-subsection-${index}-${subIndex}" class="career-subsection-content">
+                                <ul class="list-disc pl-8 py-4 space-y-2 text-gray-700">
+                                    ${subsection.items.map(item => `<li>${item}</li>`).join('')}
+                                </ul>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+                else {
+                    contentHTML = phase.courses.map(course => `
+                        <div class="course-card p-4 border-t border-gray-200" data-skills='${JSON.stringify(course.skills)}'>
+                            <div class="flex justify-between items-start">
+                                 <div>
+                                    <h5 class="font-semibold text-gray-800">${course.title}</h5>
+                                    <p class="text-sm text-gray-500">${course.provider}</p>
+                                 </div>
+                                 <a href="${course.link}" target="_blank" class="ml-4 flex-shrink-0 inline-block bg-emerald-500 text-white text-xs font-bold py-2 px-3 rounded-full hover:bg-emerald-600 transition-colors">
+                                    Go to Course
+                                 </a>
+                            </div>
+                            <div class="mt-3 flex flex-wrap gap-2">
+                                ${course.skills.map(skill => `<span class="bg-gray-200 text-gray-700 text-xs font-medium px-2.5 py-1 rounded-full">${skill}</span>`).join('')}
+                            </div>
+                        </div>
+                    `).join('');
+                }
+
+                phaseElement.innerHTML = `
+                    <div class="phase-header p-5 flex justify-between items-center" data-target="phase-content-${index}">
+                        <div class="flex items-center">
+                            <span class="text-3xl mr-4">${phase.icon}</span>
+                            <div>
+                                <h4 class="text-xl font-bold text-gray-800">${phase.title}</h4>
+                                <p class="text-gray-600">${phase.description}</p>
+                            </div>
+                        </div>
+                        <div class="arrow-icon text-gray-500 text-2xl">
+                            <span>▼</span>
+                        </div>
+                    </div>
+                    <div id="phase-content-${index}" class="phase-content">
+                        ${contentHTML}
+                    </div>
+                `;
+                phasesContainer.appendChild(phaseElement);
+            });
+            
+            function setupToggle(selector, contentSelector) {
+                 document.querySelectorAll(selector).forEach(header => {
+                    header.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const targetId = header.getAttribute('data-target');
+                        const content = document.getElementById(targetId);
+                        const isActive = content.classList.contains('active');
+                        
+                        // Close other top-level phases if clicking a phase-header
+                        if (selector === '.phase-header') {
+                            document.querySelectorAll(contentSelector).forEach(openContent => {
+                                if (openContent.id !== targetId) {
+                                    openContent.classList.remove('active');
+                                    document.querySelector(`[data-target='${openContent.id}']`).classList.remove('open');
+                                }
+                            });
+                        }
+                        // Close other subsections within a phase if clicking a project-subsection-header or career-subsection-header
+                        else if (selector === '.project-subsection-header' || selector === '.career-subsection-header') {
+                             const parentContentId = header.closest('.phase-content').id;
+                             document.querySelectorAll(`#${parentContentId} > .border-t > ${selector.replace('.', '')}`).forEach(openHeader => {
+                                 const openContentId = openHeader.getAttribute('data-target');
+                                 if (openContentId !== targetId) {
+                                     document.getElementById(openContentId).classList.remove('active');
+                                     openHeader.classList.remove('open');
+                                 }
+                             });
+                        }
+                        // Close other industry-specific tiers if clicking an industry-specific-tier-header
+                        else if (selector === '.industry-specific-tier-header') {
+                            const parentSubsectionContentId = header.closest('.project-subsection-content').id;
+                            document.querySelectorAll(`#${parentSubsectionContentId} > .border-t > ${selector.replace('.', '')}`).forEach(openHeader => {
+                                const openContentId = openHeader.getAttribute('data-target');
+                                if (openContentId !== targetId) {
+                                    document.getElementById(openContentId).classList.remove('active');
+                                    openHeader.classList.remove('open');
+                                }
+                            });
+                        }
+
+
+                        content.classList.toggle('active');
+                        header.classList.toggle('open');
+                    });
+                });
+            }
+
+            setupToggle('.phase-header', '.phase-content');
+            setupToggle('.project-subsection-header', '.project-subsection-content');
+            setupToggle('.industry-specific-tier-header', '.industry-specific-tier-content');
+            setupToggle('.career-subsection-header', '.career-subsection-content');
+
+
+            
+            const skillsGrid = document.getElementById('skills-grid');
+            skillsData.sort().forEach(skill => {
+                const skillTag = document.createElement('button');
+                skillTag.className = 'skill-tag bg-white text-gray-700 font-medium py-2 px-4 rounded-full shadow-sm hover:bg-gray-100 transition-all duration-200 border border-gray-200';
+                skillTag.textContent = skill;
+                skillTag.dataset.skill = skill;
+                skillsGrid.appendChild(skillTag);
+            });
+
+            let activeSkill = null;
+            skillsGrid.addEventListener('click', e => {
+                if (e.target.classList.contains('skill-tag')) {
+                    const selectedSkill = e.target.dataset.skill;
+
+                    document.querySelectorAll('.skill-tag').forEach(tag => tag.classList.remove('highlight'));
+                    document.querySelectorAll('.course-card').forEach(card => card.classList.remove('highlight-skill'));
+                    
+                    if (activeSkill === selectedSkill) {
+                        activeSkill = null;
+                    } else {
+                        e.target.classList.add('highlight');
+                        activeSkill = selectedSkill;
+                        document.querySelectorAll('.course-card').forEach(card => {
+                            const industrySpecificTierContent = card.closest('.industry-specific-tier-content');
+                            if (industrySpecificTierContent && !industrySpecificTierContent.classList.contains('active')) {
+                                document.querySelector(`[data-target='${industrySpecificTierContent.id}']`).click();
+                            }
+                            const projectSubsectionContent = card.closest('.project-subsection-content');
+                            if (projectSubsectionContent && !projectSubsectionContent.classList.contains('active')) {
+                                document.querySelector(`[data-target='${projectSubsectionContent.id}']`).click();
+                            }
+                            const phaseContent = card.closest('.phase-content');
+                            if (phaseContent && !phaseContent.classList.contains('active')) {
+                                document.querySelector(`[data-target='${phaseContent.id}']`).click();
+                            }
+
+                            const cardSkills = JSON.parse(card.dataset.skills);
+                            if (cardSkills.includes(selectedSkill)) {
+                                card.classList.add('highlight-skill');
+                            }
+                        });
+                        
+                        const firstHighlight = document.querySelector('.course-card.highlight-skill');
+                        if(firstHighlight) {
+                            firstHighlight.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
+                    }
+                }
+            });
+
+            const specializationData = {
+                labels: [
+                    'Deep Learning Specialization', 
+                    'MLOps Specialization', 
+                    'TensorFlow Developer Certificate', 
+                    'Google Cloud ML Engineer Cert.',
+                    'Machine Learning Specialization'
+                ],
+                datasets: [
+                    {
+                        label: 'Theoretical Depth',
+                        data: [9, 7, 7, 8, 10],
+                        backgroundColor: 'rgba(52, 152, 219, 0.7)',
+                        borderColor: 'rgba(52, 152, 219, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Practical Focus',
+                        data: [8, 9, 10, 9, 7],
+                        backgroundColor: 'rgba(26, 188, 156, 0.7)',
+                        borderColor: 'rgba(26, 188, 156, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'MLOps Coverage',
+                        data: [4, 10, 5, 9, 2],
+                        backgroundColor: 'rgba(241, 196, 15, 0.7)',
+                        borderColor: 'rgba(241, 196, 15, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            };
+
+            const ctx = document.getElementById('specializationChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: specializationData,
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            stacked: true,
+                            beginAtZero: true,
+                            max: 30,
+                             grid: {
+                                color: '#e5e7eb'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return value + ' / 10'
+                                }
+                            }
+                        },
+                        y: {
+                            stacked: true,
+                             grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                color: '#4b5563'
+                            }
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            callbacks: {
+                                label: function(context) {
+                                    let label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.x !== null) {
+                                        label += context.parsed.x + ' / 10';
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
